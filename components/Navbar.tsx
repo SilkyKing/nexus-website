@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const LOGO_URL = "https://i.postimg.cc/t4bZ9mQD/cube.png";
+
+const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  e.preventDefault();
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,61 +24,65 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'glass-panel py-4' : 'bg-transparent py-6'
-      }`}
-    >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        <a href="#" className="flex items-center space-x-3 group">
-          <div className="relative w-10 h-10 flex items-center justify-center">
-             {/* Logo Asset via Static Path */}
-             <img 
-               src="/cube.png" 
-               alt="Nexus Cube" 
-               className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(36,224,232,0.5)] group-hover:scale-105 transition-transform duration-500"
-             />
-          </div>
-          <span className="font-sans font-bold text-xl text-white tracking-[0.05em]">NEXUS</span>
-        </a>
+  const navLinks = [
+    { name: 'Features', href: '#features' },
+    { name: 'Security', href: '#security' },
+    { name: 'Pricing', href: '#pricing' },
+  ];
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
-          <a href="/#features" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Features</a>
-          <a href="#security" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Security</a>
-          <a href="/#pricing" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Pricing</a>
-          <a 
-            href="#dashboard"
-            className="text-sm font-mono bg-black hover:bg-nexus-cyan/10 border border-nexus-cyan/30 text-white px-5 py-2 rounded-md transition-all shadow-[0_0_0_0_rgba(36,224,232,0)] hover:shadow-[0_0_15px_rgba(36,224,232,0.3)] flex items-center space-x-2"
-          >
-            <span>Login</span>
-          </a>
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+      scrolled ? 'bg-[#050505]/80 backdrop-blur-md border-white/10 py-4' : 'bg-transparent border-transparent py-6'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        
+        {/* BRANDING */}
+        <div className="flex items-center gap-3 cursor-pointer">
+           <img src={LOGO_URL} alt="Nexus" className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(36,224,232,0.5)]" />
+           <span className="text-xl font-bold tracking-[0.2em] text-white">NEXUS</span>
         </div>
 
-        {/* Mobile Toggle */}
-        <button 
-          className="md:hidden text-slate-300"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
-      </div>
+        {/* DESKTOP MENU */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              onClick={(e) => scrollToSection(e, item.href.replace('#', ''))}
+              className="text-sm font-medium text-white/70 hover:text-[#24E0E8] transition-colors"
+            >
+              {item.name}
+            </a>
+          ))}
+          
+          <button className="px-5 py-2 bg-white/10 border border-white/10 text-white rounded-full text-sm font-medium hover:bg-white/20 hover:scale-105 transition-all">
+            Login
+          </button>
+        </div>
 
-      {/* Mobile Menu */}
+        {/* MOBILE MENU TOGGLE */}
+        <div className="md:hidden">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-white p-2">
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+      
+      {/* MOBILE DROPDOWN (Simplified) */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass-panel border-t border-white/10"
+            className="md:hidden bg-[#050505] border-b border-white/10"
           >
-            <div className="flex flex-col p-6 space-y-4">
-               <a href="/#features" className="text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Features</a>
-               <a href="#security" className="text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Security</a>
-               <a href="/#pricing" className="text-slate-300 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
-               <a href="#dashboard" className="text-left font-mono text-nexus-cyan" onClick={() => setMobileMenuOpen(false)}>Login / Access Vault</a>
+            <div className="flex flex-col p-6 gap-4">
+              {navLinks.map((item) => (
+                <a key={item.name} href={item.href} className="text-lg text-white/80">
+                  {item.name}
+                </a>
+              ))}
             </div>
           </motion.div>
         )}
