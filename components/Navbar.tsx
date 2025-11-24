@@ -22,17 +22,12 @@ export const Navbar: React.FC = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <a href="#" className="flex items-center space-x-3 group">
-          <div className="relative w-12 h-12 flex items-center justify-center">
-             {/* Logo Asset */}
+          <div className="relative w-10 h-10 flex items-center justify-center">
+             {/* Logo Asset via Static Path */}
              <img 
                src="/cube.png" 
                alt="Nexus Cube" 
                className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(36,224,232,0.5)] group-hover:scale-105 transition-transform duration-500"
-               onError={(e) => {
-                 // Fallback if image missing during dev
-                 e.currentTarget.style.display = 'none';
-                 e.currentTarget.parentElement!.innerHTML = '<div class="w-10 h-10 bg-nexus-cyan/20 rounded-lg border border-nexus-cyan/50 flex items-center justify-center"><div class="w-4 h-4 bg-nexus-cyan rotate-45"></div></div>';
-               }}
              />
           </div>
           <span className="font-sans font-bold text-xl text-white tracking-[0.05em]">NEXUS</span>

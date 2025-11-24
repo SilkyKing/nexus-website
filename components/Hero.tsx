@@ -25,47 +25,79 @@ export const Hero: React.FC = () => {
 
   const handleDownload = () => {
     const filename = os === 'Mac' ? 'Nexus-Darwin.dmg' : 'Nexus-Setup.exe';
-    // Simulate direct download
-    const link = document.createElement('a');
-    link.href = `https://r2.nexusbank.ai/builds/latest/${filename}`;
-    link.setAttribute('download', filename); 
-    document.body.appendChild(link);
-    // link.click(); // Commented out to prevent actual 404 on demo
-    document.body.removeChild(link);
     alert(`Downloading ${filename} from Secure R2 Bucket...`);
   };
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20">
+      
+      {/* 
+        Z-STACK ARCHITECTURE 
+        Layer 0: Ambient Background (Glows)
+        Layer 10: The Cube Asset (Centered, Dimmed, Animated)
+        Layer 20: Typography & Interactive Elements (Text)
+      */}
+
+      {/* LAYER 10: The God Object (Cube) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full max-w-[800px] flex items-center justify-center pointer-events-none opacity-60">
+         {/* Glow Effect */}
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#24E0E8] rounded-full blur-[150px] opacity-40 mix-blend-screen" />
+         
+         {/* The Asset */}
+         <motion.div
+            animate={{ 
+               y: [-15, 15],
+               rotate: [0, 2, -2, 0]
+            }}
+            transition={{ 
+               repeat: Infinity, 
+               repeatType: "mirror", 
+               duration: 8, 
+               ease: "easeInOut" 
+            }}
+            className="relative"
+         >
+           <img 
+             src="/cube.png" 
+             alt="Nexus Core" 
+             className="w-[350px] md:w-[600px] object-contain brightness-75 drop-shadow-[0_0_30px_rgba(36,224,232,0.3)]"
+           />
+         </motion.div>
+      </div>
+
+      {/* LAYER 20: Content Overlay */}
+      <div className="container mx-auto px-6 relative z-20 flex flex-col items-center text-center">
         
-        {/* Left Column: Copy */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="z-10"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-4xl mx-auto"
         >
-          <div className="inline-flex items-center space-x-2 bg-nexus-900/80 border border-nexus-cyan/30 rounded-full px-4 py-1.5 mb-8 shadow-[0_0_20px_rgba(36,224,232,0.1)]">
+          {/* Status Badge */}
+          <div className="inline-flex items-center space-x-2 bg-nexus-900/90 border border-nexus-cyan/30 rounded-full px-4 py-1.5 mb-8 shadow-[0_0_20px_rgba(36,224,232,0.2)] backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-nexus-cyan animate-pulse"></span>
             <span className="text-xs font-mono text-nexus-cyan uppercase tracking-wider">System Operational v1.0</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
+          {/* Headline */}
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-white mb-8 leading-tight drop-shadow-2xl">
             Your Digital DNA. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-cyan to-white">
               Secured.
             </span>
           </h1>
           
-          <p className="text-lg text-slate-400 mb-8 max-w-lg leading-relaxed">
-            The operating system for your memory. Interact with GPT-4, Claude, and Llama without sacrificing your privacy. Local-first. E2E Encrypted. Institutional Grade.
+          {/* Subheadline */}
+          <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-md bg-black/30 p-2 rounded-lg backdrop-blur-sm">
+            The operating system for your memory. Interact with GPT-4, Claude, and Llama without sacrificing your privacy. Local-first. E2E Encrypted.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+          {/* CTA Group */}
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
             <button 
               onClick={handleDownload}
-              className="w-full sm:w-auto group relative bg-black text-white font-semibold px-8 py-4 rounded-lg flex items-center justify-center border border-nexus-cyan/30 shadow-[0_0_0_0_rgba(36,224,232,0)] hover:shadow-[0_0_30px_rgba(36,224,232,0.3)] hover:bg-nexus-cyan/10 transition-all duration-300"
+              className="w-full sm:w-auto group relative bg-white text-black font-bold px-8 py-4 rounded-lg flex items-center justify-center hover:bg-nexus-cyan transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
               {getIcon()}
               <span>{getButtonText()}</span>
@@ -74,79 +106,22 @@ export const Hero: React.FC = () => {
             
             <a 
               href="#docs" 
-              className="w-full sm:w-auto px-8 py-4 rounded-lg text-slate-300 font-medium hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10 transition-all flex items-center justify-center group"
+              className="w-full sm:w-auto px-8 py-4 rounded-lg text-white font-medium bg-black/60 border border-white/20 hover:bg-black/80 hover:border-nexus-cyan/50 transition-all flex items-center justify-center backdrop-blur-md"
             >
               View Documentation
-              <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-4 h-4 ml-2" />
             </a>
           </div>
-          
-          <div className="mt-8 flex items-center space-x-6 text-xs font-mono text-slate-500">
-             <span className="flex items-center"><div className="w-1 h-1 bg-nexus-cyan rounded-full mr-2"></div>SHA-256 Encrypted</span>
-             <span className="flex items-center"><div className="w-1 h-1 bg-nexus-cyan rounded-full mr-2"></div>Local Storage</span>
+
+          {/* Tech Specs */}
+          <div className="mt-12 flex items-center justify-center space-x-8 text-xs font-mono text-slate-400 bg-black/40 inline-block px-6 py-2 rounded-full border border-white/5 backdrop-blur-sm">
+             <span className="flex items-center"><div className="w-1.5 h-1.5 bg-nexus-cyan rounded-full mr-2"></div>SHA-256 Encrypted</span>
+             <span className="flex items-center"><div className="w-1.5 h-1.5 bg-nexus-cyan rounded-full mr-2"></div>Local Storage</span>
           </div>
+
         </motion.div>
-
-        {/* Right Column: 3D Visualization */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative h-[500px] flex items-center justify-center"
-        >
-          {/* Glow Portal - Updated to #00F0FF with 200px blur */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#00F0FF] rounded-full blur-[200px] opacity-30 pointer-events-none" />
-
-          {/* Floating Cube Totem - Breathe (Scale) + Float (Y) Animation */}
-          <motion.div
-             animate={{ 
-               y: [-10, 10],
-               scale: [1, 1.02] 
-             }}
-             transition={{ 
-               repeat: Infinity, 
-               repeatType: "mirror", 
-               duration: 6, 
-               ease: "easeInOut" 
-             }}
-             className="relative z-10 w-full h-full flex items-center justify-center"
-          >
-             <img 
-               src="/cube.png" 
-               alt="Nexus Obsidian Cube" 
-               className="w-80 h-80 md:w-[450px] md:h-[450px] object-contain drop-shadow-[0_0_60px_rgba(36,224,232,0.6)]"
-               onError={(e) => {
-                  // Fallback for demo
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = `
-                    <div class="relative w-64 h-64 preserve-3d animate-[spin_10s_linear_infinite]">
-                      <div class="absolute inset-0 bg-gradient-to-br from-black to-nexus-cyan/20 border border-nexus-cyan/50 backdrop-blur-md"></div>
-                      <div class="absolute inset-0 flex items-center justify-center text-nexus-cyan font-mono text-xs">ASSET: CUBE.PNG</div>
-                    </div>
-                  `;
-               }}
-             />
-          </motion.div>
-
-           {/* Floating Data Points */}
-           <motion.div 
-             animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }} 
-             transition={{ repeat: Infinity, duration: 4 }}
-             className="absolute top-20 right-10 glass-panel px-4 py-2 rounded-md border border-nexus-cyan/30 shadow-[0_0_15px_rgba(36,224,232,0.1)]"
-           >
-             <div className="text-[10px] font-mono text-nexus-cyan">VAULT: LOCKED</div>
-           </motion.div>
-
-           <motion.div 
-             animate={{ y: [0, 15, 0], opacity: [0.5, 1, 0.5] }} 
-             transition={{ repeat: Infinity, duration: 5, delay: 1 }}
-             className="absolute bottom-20 left-0 glass-panel px-4 py-2 rounded-md border border-nexus-cyan/30 shadow-[0_0_15px_rgba(36,224,232,0.1)]"
-           >
-             <div className="text-[10px] font-mono text-nexus-cyan">KEYS: LOCAL</div>
-           </motion.div>
-        </motion.div>
-
       </div>
+
     </section>
   );
 };
