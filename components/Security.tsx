@@ -1,81 +1,91 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Cpu, Key, Database } from 'lucide-react';
+import { Shield, Lock, Server, Trash2, ChevronLeft, FileCheck } from 'lucide-react';
 
-export const Security: React.FC = () => {
+export const Security = ({ onBack }: { onBack: () => void }) => {
   return (
-    <section className="pt-32 pb-20 min-h-screen">
-      <div className="container mx-auto px-6 max-w-4xl">
-        <div className="border-b border-white/10 pb-8 mb-12">
-          <span className="font-mono text-xs text-nexus-accent uppercase tracking-widest">Technical Whitepaper</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-6">Trust through Mathematics, not Policies.</h1>
-          <p className="text-xl text-slate-400">
-            Most AI companies ask you to trust their "Privacy Policy." At Nexus, we engineered a system where we do not need your trust.
-          </p>
+    <div className="min-h-screen pt-24 pb-20 px-6 bg-[#050505] text-white">
+      
+      {/* HEADER */}
+      <div className="max-w-4xl mx-auto mb-16">
+        <button 
+            onClick={onBack}
+            className="flex items-center gap-2 text-white/50 hover:text-[#24E0E8] transition-colors mb-8"
+        >
+            <ChevronLeft size={20} /> Back to Nexus
+        </button>
+        
+        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-[#24E0E8]/10 border border-[#24E0E8]/20 mb-6">
+             <Lock size={16} className="text-[#24E0E8]" />
+             <span className="text-xs font-mono text-[#24E0E8]">AUDIT LEVEL: SOVEREIGN</span>
         </div>
-
-        <div className="space-y-16">
-          
-          {/* Section 1: Local Ingestion */}
-          <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-          >
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="p-3 bg-nexus-800 rounded-lg border border-white/10">
-                <Cpu className="w-6 h-6 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white">Local Ingestion</h2>
-            </div>
-            <p className="text-slate-400 leading-relaxed mb-4">
-              Your documents are parsed, chunked, and embedded strictly on your local CPU. They never touch our servers in raw format. 
-              We use a local instance of <strong>bge-m3</strong> for vector embedding, running entirely within the application sandbox.
-            </p>
-          </motion.div>
-
-          {/* Section 2: Zero-Knowledge Cloud */}
-          <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-          >
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="p-3 bg-nexus-800 rounded-lg border border-white/10">
-                <Key className="w-6 h-6 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white">Zero-Knowledge Cloud</h2>
-            </div>
-            <p className="text-slate-400 leading-relaxed mb-4">
-              When you sync, we store a binary blob encrypted with your Master PIN. We (Nexus Bank Technology) hold the encrypted data, but we do not have the key.
-            </p>
-            <blockquote className="border-l-4 border-nexus-cyan pl-4 text-nexus-cyan italic my-6">
-              "We literally cannot see your memories if we tried."
-            </blockquote>
-            <p className="text-slate-400 leading-relaxed">
-               Syncing utilizes <strong>AES-256-GCM</strong> encryption performed client-side before upload to our R2 storage buckets.
-            </p>
-          </motion.div>
-
-           {/* Section 3: Ephemeral Inference */}
-           <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
-          >
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="p-3 bg-nexus-800 rounded-lg border border-white/10">
-                <Database className="w-6 h-6 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white">Ephemeral Inference</h2>
-            </div>
-            <p className="text-slate-400 leading-relaxed">
-              When interacting with GPT-4 or Claude, only the specifically relevant context fragments are sent. They are transiently processed and immediately discarded by the model providers via our zero-retention API agreements.
-            </p>
-          </motion.div>
-
-        </div>
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+            Trust through <span className="text-[#24E0E8]">Mathematics</span>,<br/>
+            not Policy.
+        </h1>
+        <p className="text-xl text-white/60 max-w-2xl leading-relaxed">
+            Most AI companies ask you to trust their Terms of Service. 
+            Nexus architecture is designed so that we literally cannot access your data 
+            even if compelled by law.
+        </p>
       </div>
-    </section>
+
+      {/* PROTOCOLS GRID */}
+      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 mb-20">
+        
+        {/* CARD 1 */}
+        <div className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-[#24E0E8]/30 transition-colors">
+            <Server className="text-[#24E0E8] mb-4" size={32} />
+            <h3 className="text-xl font-bold mb-2">Local Ingestion Protocol</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
+                Documents (PDF, DOCX, Code) are parsed, chunked, and embedded strictly on your device's CPU. 
+                The raw vectors never leave your machine unencrypted.
+            </p>
+        </div>
+
+        {/* CARD 2 */}
+        <div className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-[#24E0E8]/30 transition-colors">
+            <Shield className="text-[#24E0E8] mb-4" size={32} />
+            <h3 className="text-xl font-bold mb-2">Zero-Knowledge Cloud</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
+                When sync is enabled, data is encrypted with AES-256-GCM using a key derived from your 
+                Local Master PIN. Nexus servers store the binary blob but lack the key to read it.
+            </p>
+        </div>
+        
+        {/* CARD 3 */}
+        <div className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-[#24E0E8]/30 transition-colors">
+            <Trash2 className="text-red-400 mb-4" size={32} />
+            <h3 className="text-xl font-bold mb-2">Protocol Omega</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
+                Cryptographic Shredding capability. Triggering 'Omega' overwrites the local key slots 
+                with high-entropy noise and purges remote buckets instantly, making recovery mathematically impossible.
+            </p>
+        </div>
+
+        {/* CARD 4 */}
+        <div className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-[#24E0E8]/30 transition-colors">
+            <Lock className="text-[#24E0E8] mb-4" size={32} />
+            <h3 className="text-xl font-bold mb-2">Ephemeral Inference</h3>
+            <p className="text-white/60 text-sm leading-relaxed">
+                We act as a blind proxy. When querying GPT-4 or Claude, only the specific context fragments 
+                are sent. Data is transient and discarded by providers immediately after generation via API guarantees.
+            </p>
+        </div>
+
+      </div>
+
+      {/* DOWNLOAD AUDIT */}
+      <div className="max-w-4xl mx-auto p-10 bg-gradient-to-r from-[#24E0E8]/10 to-transparent rounded-2xl border border-[#24E0E8]/20 flex items-center justify-between">
+         <div>
+            <h3 className="text-white font-bold text-lg">Technical Whitepaper (v1.2)</h3>
+            <p className="text-white/60 text-sm">Detailed SHA-256 implementation specs.</p>
+         </div>
+         <button className="flex items-center gap-2 px-6 py-3 bg-[#24E0E8] text-black font-bold rounded-full hover:scale-105 transition-transform">
+            <FileCheck size={18} /> Download PDF
+         </button>
+      </div>
+
+    </div>
   );
 };
